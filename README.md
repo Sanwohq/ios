@@ -14,21 +14,28 @@ Add Sanwo to your project using SPM:
    https://github.com/Sanwohq/ios
    ```
 3. Select your version rule and click **Add Package**
+4. Choose which libraries to add:
+   - **Sanwo** (core SDK, always required)
+   - **SanwoPaystack** (Paystack provider)
+   - **SanwoFlutterwave** (Flutterwave provider)
 
 Or add it to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/Sanwohq/ios", from: "1.0.0")
+    .package(url: "https://github.com/Sanwohq/ios.git", from: "0.1.0")
 ]
 ```
 
-Then add `"Sanwo"` to your target's dependencies:
+Then add the products to your target's dependencies:
 
 ```swift
 .target(
     name: "MyApp",
-    dependencies: ["Sanwo"]
+    dependencies: [
+        .product(name: "Sanwo", package: "ios"),
+        .product(name: "SanwoPaystack", package: "ios"),
+    ]
 )
 ```
 
@@ -38,10 +45,11 @@ Then add `"Sanwo"` to your target's dependencies:
 
 ```swift
 import Sanwo
+import SanwoPaystack
 
 class CheckoutViewController: UIViewController {
     let sanwo = Sanwo(
-        provider: .paystack,
+        provider: paystackProvider,
         publicKey: "pk_test_your_key_here"
     )
 
@@ -82,12 +90,13 @@ class CheckoutViewController: UIViewController {
 ```swift
 import SwiftUI
 import Sanwo
+import SanwoPaystack
 
 struct ContentView: View {
     @State private var showCheckout = false
 
     let sanwo = Sanwo(
-        provider: .paystack,
+        provider: paystackProvider,
         publicKey: "pk_test_your_key_here"
     )
 
@@ -122,8 +131,11 @@ struct ContentView: View {
 ### Paystack
 
 ```swift
+import Sanwo
+import SanwoPaystack
+
 let sanwo = Sanwo(
-    provider: .paystack,
+    provider: paystackProvider,
     publicKey: "pk_test_..."
 )
 ```
@@ -131,8 +143,11 @@ let sanwo = Sanwo(
 ### Flutterwave
 
 ```swift
+import Sanwo
+import SanwoFlutterwave
+
 let sanwo = Sanwo(
-    provider: .flutterwave,
+    provider: flutterwaveProvider,
     publicKey: "FLWPUBK_TEST-..."
 )
 ```
@@ -212,7 +227,8 @@ You can add support for any payment provider by creating a `SanwoProvider`:
 ```swift
 let customProvider = SanwoProvider(
     id: "myprovider",
-    name: "My Provider",
+    name: "myprovider",
+    displayName: "My Provider",
     template: """
     <!DOCTYPE html>
     <html>

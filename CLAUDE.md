@@ -25,9 +25,9 @@ Sanwo is a universal payment SDK. The iOS SDK uses WKWebView to load provider HT
 - `Sources/Sanwo/Engine.swift` - Template rendering, bridge generation, amount conversion
 - `Sources/Sanwo/SanwoCheckoutViewController.swift` - UIKit controller with WKWebView
 - `Sources/Sanwo/SanwoCheckoutModifier.swift` - SwiftUI view modifier
-- `Sources/Sanwo/SanwoProvider.swift` - Provider protocol definition
-- `Sources/Sanwo/SanwoProviders.swift` - Built-in providers (Paystack, Flutterwave)
-- `Sources/Sanwo/Templates/` - HTML templates for each provider
+- `Sources/Sanwo/SanwoProvider.swift` - Provider struct definition (public, used by provider packages)
+- `Sources/SanwoPaystack/SanwoPaystack.swift` - Paystack provider definition and HTML template
+- `Sources/SanwoFlutterwave/SanwoFlutterwave.swift` - Flutterwave provider definition and HTML template
 
 ### Code conventions
 

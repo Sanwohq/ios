@@ -1,5 +1,7 @@
 import XCTest
 @testable import Sanwo
+import SanwoPaystack
+import SanwoFlutterwave
 
 final class EngineTests: XCTestCase {
 
@@ -96,7 +98,7 @@ final class EngineTests: XCTestCase {
         let params = Engine.buildTemplateParams(
             options: options,
             publicKey: "pk_test_123",
-            provider: .paystack
+            provider: paystackProvider
         )
 
         XCTAssertEqual(params["publicKey"] as? String, "pk_test_123")
@@ -115,7 +117,7 @@ final class EngineTests: XCTestCase {
         let params = Engine.buildTemplateParams(
             options: options,
             publicKey: "FLWPUBK_TEST_123",
-            provider: .flutterwave
+            provider: flutterwaveProvider
         )
 
         // Flutterwave does NOT use minor units, so 500000 kobo -> 5000.0 naira
@@ -141,7 +143,7 @@ final class EngineTests: XCTestCase {
         let params = Engine.buildTemplateParams(
             options: options,
             publicKey: "pk_test_123",
-            provider: .paystack
+            provider: paystackProvider
         )
 
         XCTAssertEqual(params["firstName"] as? String, "John")
@@ -162,7 +164,7 @@ final class EngineTests: XCTestCase {
         let params = Engine.buildTemplateParams(
             options: options,
             publicKey: "pk_test_123",
-            provider: .paystack
+            provider: paystackProvider
         )
 
         XCTAssertNil(params["firstName"])
@@ -179,33 +181,45 @@ final class EngineTests: XCTestCase {
     // MARK: - Provider tests
 
     func testPaystackProviderUsesMinorUnit() {
-        XCTAssertTrue(SanwoProvider.paystack.amountInMinorUnit)
-        XCTAssertEqual(SanwoProvider.paystack.id, "paystack")
-        XCTAssertEqual(SanwoProvider.paystack.name, "Paystack")
+        XCTAssertTrue(paystackProvider.amountInMinorUnit)
+        XCTAssertEqual(paystackProvider.id, "paystack")
+        XCTAssertEqual(paystackProvider.name, "paystack")
+        XCTAssertEqual(paystackProvider.displayName, "Paystack")
     }
 
     func testFlutterwaveProviderDoesNotUseMinorUnit() {
-        XCTAssertFalse(SanwoProvider.flutterwave.amountInMinorUnit)
-        XCTAssertEqual(SanwoProvider.flutterwave.id, "flutterwave")
-        XCTAssertEqual(SanwoProvider.flutterwave.name, "Flutterwave")
+        XCTAssertFalse(flutterwaveProvider.amountInMinorUnit)
+        XCTAssertEqual(flutterwaveProvider.id, "flutterwave")
+        XCTAssertEqual(flutterwaveProvider.name, "flutterwave")
+        XCTAssertEqual(flutterwaveProvider.displayName, "Flutterwave")
     }
 
     func testPaystackTemplateContainsPlaceholders() {
-        XCTAssertTrue(SanwoProvider.paystack.template.contains("{{sanwoBridge}}"))
-        XCTAssertTrue(SanwoProvider.paystack.template.contains("{{params}}"))
-        XCTAssertTrue(SanwoProvider.paystack.template.contains("PaystackPop"))
+        XCTAssertTrue(paystackProvider.template.contains("{{sanwoBridge}}"))
+        XCTAssertTrue(paystackProvider.template.contains("{{params}}"))
+        XCTAssertTrue(paystackProvider.template.contains("PaystackPop"))
     }
 
     func testFlutterwaveTemplateContainsPlaceholders() {
-        XCTAssertTrue(SanwoProvider.flutterwave.template.contains("{{sanwoBridge}}"))
-        XCTAssertTrue(SanwoProvider.flutterwave.template.contains("{{params}}"))
-        XCTAssertTrue(SanwoProvider.flutterwave.template.contains("FlutterwaveCheckout"))
+        XCTAssertTrue(flutterwaveProvider.template.contains("{{sanwoBridge}}"))
+        XCTAssertTrue(flutterwaveProvider.template.contains("{{params}}"))
+        XCTAssertTrue(flutterwaveProvider.template.contains("FlutterwaveCheckout"))
+    }
+
+    func testPaystackSupportedCurrencies() {
+        XCTAssertTrue(paystackProvider.supportedCurrencies.contains("NGN"))
+        XCTAssertTrue(paystackProvider.supportedCurrencies.contains("USD"))
+    }
+
+    func testFlutterwaveSupportedCurrencies() {
+        XCTAssertTrue(flutterwaveProvider.supportedCurrencies.contains("NGN"))
+        XCTAssertTrue(flutterwaveProvider.supportedCurrencies.contains("USD"))
     }
 
     // MARK: - Sanwo instance tests
 
     func testSanwoEventRegistration() {
-        let sanwo = Sanwo(provider: .paystack, publicKey: "pk_test_123")
+        let sanwo = Sanwo(provider: paystackProvider, publicKey: "pk_test_123")
 
         sanwo.on(.success) { _ in }
         XCTAssertNotNil(sanwo.eventHandlers[.success])
@@ -215,7 +229,7 @@ final class EngineTests: XCTestCase {
     }
 
     func testSanwoRemoveAllHandlers() {
-        let sanwo = Sanwo(provider: .paystack, publicKey: "pk_test_123")
+        let sanwo = Sanwo(provider: paystackProvider, publicKey: "pk_test_123")
 
         sanwo.on(.success) { _ in }
         sanwo.on(.cancelled) { _ in }
@@ -228,7 +242,7 @@ final class EngineTests: XCTestCase {
     }
 
     func testSanwoOnReturnsChainable() {
-        let sanwo = Sanwo(provider: .paystack, publicKey: "pk_test_123")
+        let sanwo = Sanwo(provider: paystackProvider, publicKey: "pk_test_123")
 
         let returned = sanwo
             .on(.success) { _ in }
