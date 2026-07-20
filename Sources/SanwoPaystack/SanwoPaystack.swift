@@ -1,8 +1,8 @@
 import Sanwo
 
-/// Pre-configured Paystack payment provider.
+/// Paystack provider for Sanwo.
 ///
-/// Paystack expects amounts in minor units (kobo for NGN, pesewas for GHS).
+/// Auto-generated from @sanwohq/paystack — do not edit manually.
 public let paystackProvider = SanwoProvider(
     id: "paystack",
     name: "paystack",
@@ -13,7 +13,7 @@ public let paystackProvider = SanwoProvider(
     supportedCountries: ["NG", "GH", "ZA", "US", "KE"]
 )
 
-private let paystackTemplate = """
+private let paystackTemplate = #"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +25,9 @@ private let paystackTemplate = """
   <script src="https://js.paystack.co/v2/inline.js"></script>
   <script>
     {{sanwoBridge}}
+
     var params = {{params}};
+
     function initPayment() {
       try {
         var paystack = new PaystackPop();
@@ -42,15 +44,29 @@ private let paystackTemplate = """
               raw: response
             });
           },
-          onCancel: function() { sanwoCallback('cancelled', {}); },
-          onClose: function() { sanwoCallback('closed', {}); }
+          onCancel: function() {
+            sanwoCallback('cancelled', {});
+          },
+          onClose: function() {
+            sanwoCallback('closed', {});
+          }
         };
+
         if (params.reference) config.ref = params.reference;
         if (params.channels) config.channels = params.channels;
         if (params.metadata) config.metadata = params.metadata;
         if (params.firstName) config.firstname = params.firstName;
         if (params.lastName) config.lastname = params.lastName;
         if (params.phone) config.phone = params.phone;
+        if (params.label) config.label = params.label;
+        if (params.plan) config.plan = params.plan;
+        if (params.quantity) config.quantity = params.quantity;
+        if (params.subaccount) config.subaccount = params.subaccount;
+        if (params.splitCode) config.split_code = params.splitCode;
+        if (params.split) config.split = params.split;
+        if (params.transactionCharge) config.transaction_charge = params.transactionCharge;
+        if (params.invoiceLimit) config.invoice_limit = params.invoiceLimit;
+
         sanwoCallback('loaded', {});
         var method = params.method || 'checkout';
         paystack[method](config);
@@ -61,4 +77,4 @@ private let paystackTemplate = """
   </script>
 </body>
 </html>
-"""
+"""#
