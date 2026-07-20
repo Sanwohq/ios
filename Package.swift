@@ -25,6 +25,6 @@ let package = Package(
         .target(name: "SanwoPaystack", dependencies: ["Sanwo"]),
         .target(name: "SanwoRazorpay", dependencies: ["Sanwo"]),
         .target(name: "SanwoStripe", dependencies: ["Sanwo"]),
-        .testTarget(name: "SanwoTests", dependencies: ["Sanwo"]),
+        .testTarget(name: "SanwoTests", dependencies: ["Sanwo", "SanwoFlutterwave", "SanwoInterswitch", "SanwoMonnify", "SanwoPaypal", "SanwoPaystack", "SanwoRazorpay", "SanwoStripe"]),
     ]
 )
