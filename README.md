@@ -60,7 +60,7 @@ class CheckoutViewController: UIViewController {
         }
 
         // Start checkout
-        sanwo.checkout(
+        sanwo(
             from: self,
             options: CheckoutOptions(
                 amount: 500000,  // 5,000.00 in minor units

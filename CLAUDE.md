@@ -21,7 +21,7 @@ Sanwo is a universal payment SDK. The iOS SDK uses WKWebView to load provider HT
 
 ### Key files
 
-- `Sources/Sanwo/Sanwo.swift` - Main entry point, event registration, checkout presentation
+- `Sources/Sanwo/Sanwo.swift` - Main entry point, event registration, callable checkout via `callAsFunction`
 - `Sources/Sanwo/Engine.swift` - Template rendering, bridge generation, amount conversion
 - `Sources/Sanwo/SanwoCheckoutViewController.swift` - UIKit controller with WKWebView
 - `Sources/Sanwo/SanwoCheckoutModifier.swift` - SwiftUI view modifier

@@ -5,7 +5,7 @@ import UIKit
 /// The main entry point for the Sanwo payment SDK.
 ///
 /// Create a `Sanwo` instance with a provider and public key, register event handlers,
-/// then call `checkout(from:options:completion:)` to present the payment UI.
+/// then call it directly to present the payment UI.
 ///
 /// ```swift
 /// let sanwo = Sanwo(provider: .paystack, publicKey: "pk_test_...")
@@ -14,7 +14,7 @@ import UIKit
 ///     print("Payment succeeded: \(event.data ?? [:])")
 /// }
 ///
-/// sanwo.checkout(
+/// sanwo(
 ///     from: viewController,
 ///     options: CheckoutOptions(
 ///         amount: 500000,
@@ -97,11 +97,16 @@ public final class Sanwo {
     #if canImport(UIKit)
     /// Presents the checkout UI from the given view controller.
     ///
+    /// This method allows `Sanwo` instances to be called like functions:
+    /// ```swift
+    /// sanwo(from: viewController, options: options) { result in ... }
+    /// ```
+    ///
     /// - Parameters:
     ///   - viewController: The view controller to present the checkout from.
     ///   - options: Checkout configuration options.
     ///   - completion: Called with the checkout result when the session ends.
-    public func checkout(
+    public func callAsFunction(
         from viewController: UIViewController,
         options: CheckoutOptions,
         completion: @escaping (CheckoutResult) -> Void
