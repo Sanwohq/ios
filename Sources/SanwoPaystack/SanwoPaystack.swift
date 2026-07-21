@@ -21,8 +21,7 @@ private let paystackTemplate = #"""
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sanwo Checkout</title>
 </head>
-<body onload="initPayment()" style="background-color:#fff;height:100vh">
-  <script src="https://js.paystack.co/v2/inline.js"></script>
+<body style="background-color:#fff;height:100vh">
   <script>
     {{sanwoBridge}}
 
@@ -74,6 +73,14 @@ private let paystackTemplate = #"""
         sanwoCallback('error', { message: e.message });
       }
     }
+
+    var psScript = document.createElement('script');
+    psScript.src = 'https://js.paystack.co/v2/inline.js';
+    psScript.onload = initPayment;
+    psScript.onerror = function() {
+      sanwoCallback('error', { message: 'Failed to load Paystack SDK' });
+    };
+    document.body.appendChild(psScript);
   </script>
 </body>
 </html>
