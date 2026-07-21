@@ -2,8 +2,6 @@ import XCTest
 @testable import Sanwo
 import SanwoPaystack
 import SanwoFlutterwave
-import SanwoStripe
-import SanwoPaypal
 import SanwoRazorpay
 import SanwoMonnify
 import SanwoInterswitch
@@ -60,58 +58,6 @@ final class ProviderTests: XCTestCase {
 
     func testFlutterwaveSupportedCountriesNonEmpty() {
         XCTAssertFalse(flutterwaveProvider.supportedCountries.isEmpty)
-    }
-
-    // MARK: - Stripe
-
-    func testStripeProviderMetadata() {
-        XCTAssertEqual(stripeProvider.id, "stripe")
-        XCTAssertEqual(stripeProvider.name, "stripe")
-        XCTAssertEqual(stripeProvider.displayName, "Stripe")
-        XCTAssertTrue(stripeProvider.amountInMinorUnit)
-    }
-
-    func testStripeTemplatePlaceholders() {
-        XCTAssertTrue(stripeProvider.template.contains("{{sanwoBridge}}"))
-        XCTAssertTrue(stripeProvider.template.contains("{{params}}"))
-    }
-
-    func testStripeTemplateCallbacks() {
-        XCTAssertTrue(stripeProvider.template.contains("sanwoCallback"))
-    }
-
-    func testStripeSupportedCurrenciesNonEmpty() {
-        XCTAssertFalse(stripeProvider.supportedCurrencies.isEmpty)
-    }
-
-    func testStripeSupportedCountriesNonEmpty() {
-        XCTAssertFalse(stripeProvider.supportedCountries.isEmpty)
-    }
-
-    // MARK: - PayPal
-
-    func testPaypalProviderMetadata() {
-        XCTAssertEqual(paypalProvider.id, "paypal")
-        XCTAssertEqual(paypalProvider.name, "paypal")
-        XCTAssertEqual(paypalProvider.displayName, "PayPal")
-        XCTAssertFalse(paypalProvider.amountInMinorUnit)
-    }
-
-    func testPaypalTemplatePlaceholders() {
-        XCTAssertTrue(paypalProvider.template.contains("{{sanwoBridge}}"))
-        XCTAssertTrue(paypalProvider.template.contains("{{params}}"))
-    }
-
-    func testPaypalTemplateCallbacks() {
-        XCTAssertTrue(paypalProvider.template.contains("sanwoCallback"))
-    }
-
-    func testPaypalSupportedCurrenciesNonEmpty() {
-        XCTAssertFalse(paypalProvider.supportedCurrencies.isEmpty)
-    }
-
-    func testPaypalSupportedCountriesNonEmpty() {
-        XCTAssertFalse(paypalProvider.supportedCountries.isEmpty)
     }
 
     // MARK: - Razorpay
@@ -224,38 +170,6 @@ final class ProviderTests: XCTestCase {
         let amount = params["amount"] as? Double
         XCTAssertNotNil(amount)
         XCTAssertEqual(amount!, 5000.0, accuracy: 0.001)
-    }
-
-    func testStripeAmountConversion() {
-        // Stripe uses minor units (cents)
-        let options = CheckoutOptions(
-            amount: 1099,
-            currency: "USD",
-            customer: CheckoutCustomer(email: "test@example.com")
-        )
-        let params = Engine.buildTemplateParams(
-            options: options,
-            publicKey: "pk_test",
-            provider: stripeProvider
-        )
-        XCTAssertEqual(params["amount"] as? Int, 1099)
-    }
-
-    func testPaypalAmountConversion() {
-        // PayPal does NOT use minor units, so 1099 cents -> 10.99 dollars
-        let options = CheckoutOptions(
-            amount: 1099,
-            currency: "USD",
-            customer: CheckoutCustomer(email: "test@example.com")
-        )
-        let params = Engine.buildTemplateParams(
-            options: options,
-            publicKey: "client_id",
-            provider: paypalProvider
-        )
-        let amount = params["amount"] as? Double
-        XCTAssertNotNil(amount)
-        XCTAssertEqual(amount!, 10.99, accuracy: 0.001)
     }
 
     func testRazorpayAmountConversion() {
