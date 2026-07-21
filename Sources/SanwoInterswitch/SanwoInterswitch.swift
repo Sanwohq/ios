@@ -51,7 +51,7 @@ private let interswitchTemplate = #"""
         if (params.lastName) config.customer_last_name = params.lastName;
         if (params.payItemId) config.pay_item_id = params.payItemId;
         if (params.payItemName) config.pay_item_name = params.payItemName;
-        if (params.siteRedirectUrl) config.site_redirect_url = params.siteRedirectUrl;
+        config.site_redirect_url = (typeof params.siteRedirectUrl === 'string' && params.siteRedirectUrl) ? params.siteRedirectUrl : window.location.href;
 
         sanwoCallback('loaded', {});
         window.webpayCheckout(config);
