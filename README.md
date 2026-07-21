@@ -18,6 +18,11 @@ Add Sanwo to your project using SPM:
    - **Sanwo** (core SDK, always required)
    - **SanwoPaystack** (Paystack provider)
    - **SanwoFlutterwave** (Flutterwave provider)
+   - **SanwoStripe** (Stripe provider)
+   - **SanwoPaypal** (PayPal provider)
+   - **SanwoRazorpay** (Razorpay provider)
+   - **SanwoMonnify** (Monnify provider)
+   - **SanwoInterswitch** (Interswitch provider)
 
 Or add it to your `Package.swift`:
 
@@ -149,6 +154,66 @@ import SanwoFlutterwave
 let sanwo = Sanwo(
     provider: flutterwaveProvider,
     publicKey: "FLWPUBK_TEST-..."
+)
+```
+
+### Stripe
+
+```swift
+import Sanwo
+import SanwoStripe
+
+let sanwo = Sanwo(
+    provider: stripeProvider,
+    publicKey: "pk_test_..."
+)
+```
+
+### PayPal
+
+```swift
+import Sanwo
+import SanwoPaypal
+
+let sanwo = Sanwo(
+    provider: paypalProvider,
+    publicKey: "your_client_id"
+)
+```
+
+### Razorpay
+
+```swift
+import Sanwo
+import SanwoRazorpay
+
+let sanwo = Sanwo(
+    provider: razorpayProvider,
+    publicKey: "rzp_test_..."
+)
+```
+
+### Monnify
+
+```swift
+import Sanwo
+import SanwoMonnify
+
+let sanwo = Sanwo(
+    provider: monnifyProvider,
+    publicKey: "MK_TEST_..."
+)
+```
+
+### Interswitch
+
+```swift
+import Sanwo
+import SanwoInterswitch
+
+let sanwo = Sanwo(
+    provider: interswitchProvider,
+    publicKey: "your_merchant_code"
 )
 ```
 

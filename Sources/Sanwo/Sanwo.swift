@@ -8,7 +8,7 @@ import UIKit
 /// then call it directly to present the payment UI.
 ///
 /// ```swift
-/// let sanwo = Sanwo(provider: .paystack, publicKey: "pk_test_...")
+/// let sanwo = Sanwo(provider: paystackProvider, publicKey: "pk_test_...")
 ///
 /// sanwo.on(.success) { event in
 ///     print("Payment succeeded: \(event.data ?? [:])")
@@ -49,7 +49,7 @@ public final class Sanwo {
     /// Creates a new Sanwo instance.
     ///
     /// - Parameters:
-    ///   - provider: The payment provider to use (e.g. `.paystack`, `.flutterwave`).
+    ///   - provider: The payment provider to use (e.g. `paystackProvider`, `flutterwaveProvider`).
     ///   - publicKey: The provider's public/API key.
     public init(provider: SanwoProvider, publicKey: String) {
         self.provider = provider
