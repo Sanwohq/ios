@@ -96,7 +96,7 @@ public final class SanwoCheckoutViewController: UIViewController {
         let html = Engine.renderTemplate(provider.template, params: params, bridge: bridge)
 
         emitEvent(.started)
-        webView.loadHTMLString(html, baseURL: nil)
+        webView.loadHTMLString(html, baseURL: URL(string: "https://checkout.sanwohq.com"))
     }
 
     // MARK: - Event handling

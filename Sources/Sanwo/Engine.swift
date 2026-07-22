@@ -92,6 +92,11 @@ public enum Engine {
         if let method = options.method {
             params["method"] = method
         }
+        if let extra = options.extra {
+            for (key, value) in extra {
+                params[key] = value
+            }
+        }
 
         return params
     }

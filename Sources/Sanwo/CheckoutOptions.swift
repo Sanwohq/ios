@@ -37,6 +37,12 @@ public struct CheckoutOptions: @unchecked Sendable {
     /// Called when an error occurs during checkout initialization.
     public let onError: (@Sendable (SanwoError) -> Void)?
 
+    /// Provider-specific extra parameters merged into the top-level template params.
+    ///
+    /// Use this for fields like Monnify's `contractCode`, `isTestMode`, `paymentMethods`,
+    /// or Interswitch's `payItemId`, `siteRedirectUrl`.
+    public let extra: [String: Any]?
+
     /// Creates new checkout options.
     ///
     /// - Parameters:
@@ -61,6 +67,7 @@ public struct CheckoutOptions: @unchecked Sendable {
         paymentOptions: String? = nil,
         subaccounts: [[String: Any]]? = nil,
         method: String? = nil,
+        extra: [String: Any]? = nil,
         onLoad: (@Sendable () -> Void)? = nil,
         onError: (@Sendable (SanwoError) -> Void)? = nil
     ) {
@@ -73,6 +80,7 @@ public struct CheckoutOptions: @unchecked Sendable {
         self.paymentOptions = paymentOptions
         self.subaccounts = subaccounts
         self.method = method
+        self.extra = extra
         self.onLoad = onLoad
         self.onError = onError
     }
