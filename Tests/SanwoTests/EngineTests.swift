@@ -170,7 +170,9 @@ final class EngineTests: XCTestCase {
         XCTAssertNil(params["firstName"])
         XCTAssertNil(params["lastName"])
         XCTAssertNil(params["phone"])
-        XCTAssertNil(params["reference"])
+        let ref = params["reference"] as? String
+        XCTAssertNotNil(ref)
+        XCTAssertTrue(ref?.hasPrefix("sanwo_") ?? false)
         XCTAssertNil(params["channels"])
         XCTAssertNil(params["metadata"])
         XCTAssertNil(params["paymentOptions"])
