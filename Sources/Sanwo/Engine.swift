@@ -65,12 +65,9 @@ public enum Engine {
             "publicKey": publicKey,
             "email": options.customer.email,
             "amount": amount,
-            "currency": options.currency
+            "currency": options.currency,
+            "reference": options.reference ?? generateReference()
         ]
-
-        if let reference = options.reference {
-            params["reference"] = reference
-        }
         if let firstName = options.customer.firstName {
             params["firstName"] = firstName
         }
@@ -97,6 +94,14 @@ public enum Engine {
         }
 
         return params
+    }
+
+    // MARK: - Reference generation
+
+    private static func generateReference() -> String {
+        let chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+        let random = String((0..<12).map { _ in chars.randomElement()! })
+        return "sanwo_\(random)"
     }
 
     // MARK: - Amount conversion
